@@ -1,11 +1,137 @@
 @import "core/variables";
 @import "core/default";
 
-.content {
-	margin: 1em 1vw 2em;
+.title {
+	font-weight: bold;
+	font-size: 3em;
+	line-height: 1em;
+	margin: .3em 1vw 1.5em;
+	text-align: center;
+	&__secondary {
+		font-weight: 300;
+	}
+}
+.schedule {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	&__month { 
+		width: 30vw;
+		max-width: 400px;
+		min-width: 310px;
+	}
+	&__title {
+		color: #000;
+		font-size: 1.5em;
+		font-weight: bold;
+		border-bottom: 2px solid #eee;
+		margin-bottom: 1em;
+		position: static;
+		position: sticky;
+		top: -1px;
+		padding: .4em 20px .3em;
+		background: #fff;
+	}
+	&__event {
+		margin: 1em 14px .5em;
+	}
+}
+.event {
+	border-radius: 5px;
+	box-shadow: 0 1px 5px rgba(0, 0, 0, .1), 0 5px 10px rgba(0, 0, 0, .1);
+	display: block;
+	&:hover {
+		cursor: pointer;
+	}
+	&__header {
+		border-radius: 5px 5px 0 0;
+		display: flex;
+		align-items: center;
+		color: #fff;
+		border-color: rgba(255, 255, 255, .25);
+		&--all {
+			background: #000;
+		}
+		&--shri {
+			background: #FFCE05;
+			color: #000;
+			border-color: rgba(0, 0, 0, .2);
+		}
+		&--mdev {
+			background: #ED1E00;
+		}
+		&--mdes {
+			background: #2CE8C6;
+		}
+	}
+	&__date {
+		text-align: center;
+		font-weight: 300;
+		font-size: 1.75em;
+		letter-spacing: -1px;
+		width: 39px;
+		padding: 7px 0 8px;
+		border-right: 1px solid;
+		border-color: inherit;
+		display: inline-block;
+	}
+	&__pic {
+		width: 100%;
+	}
+	&__school {
+		padding: 0 0 2px 1.2em;
+		font-size: .7em;
+		font-weight: 500;
+		letter-spacing: .13em;
+		text-transform: uppercase;
+	}
+	&__name {
+		padding: .35em 12px 0;
+		font-size: 1.2em;
+		line-height: 1.3em;
+	}
 }
 
-.content__title {
-	font-size: 2em;
-	line-height: 1em;
+.meta {
+	padding: 4px 12px 1em;
+	display: flex;
+	flex-wrap: wrap;
+	&__item {
+		font-size: .9em;
+		line-height: 1.3em;
+		&--lecturer {
+			&:after {
+				content: ', '
+			}
+		}
+		&--company {
+			margin-right: 1.4em;
+		}
+		&--place:before {
+			content: 'Аудитория ';
+		}
+	}
+}
+
+@media #{$latex-mobile} {
+	.content {
+		&__title {
+			font-size: 2em;
+			margin: .1em 2vw 1em;
+			text-align: left;
+		}
+	}
+	.schedule {
+		margin: 0;
+		&__month {
+			margin: 0;
+			width: 100vw;
+		}
+		&__title {
+			padding: .4em 2vw .3em;
+		}
+		&__event {
+			margin: .5em 2vw .5em;
+		}
+	}
 }
