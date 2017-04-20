@@ -30,22 +30,73 @@ fetchSchedule().then(json => {
     renderLectures()
 })
 
-const renderLectures = () => {
-    const lectures = redux.schedule
-    if (!lectures) return false
-    for (const lectureIndex in lectures) {
-        const lecture = lectures[lectureIndex]
-        renderLecture(lecture)
-    }
-}
-
-const selectMonth = time => {
+const getMonth = time => {
     if (!time) return false
     const months = [
         'январь', 'февраль', 'март', 'апрель',
         'май', 'июнь', 'июль', 'август', 'сентябрь'
     ]
+    time = new Date(time)
     return months[time.getMonth()] || false
+}
+
+const getDayOfTheWeek = time => {
+    if (!time) return false
+    const days = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс']
+    const currentDay = new Date(time).getDay()
+    return days[currentDay]
+}
+
+const filterLectures = (lectures, filters) => {
+    return lectures
+}
+
+const renderLectures = filters => {
+    const lectures = redux.schedule
+    if (!lectures) return false
+
+    const monthHashTable = {}
+
+    for (let i = 0; i < 12; i++) {
+        monthHashTable[i] = []
+    }
+
+    let lecturesArray = []
+    for (const lectureIndex in lectures) {
+        const lecture = lectures[lectureIndex]
+        lecturesArray.push(lecture)
+    }
+
+    // TODO: make nice filters
+    // lecturesArray = lecturesArray.filter(lecture => {
+    //     return lecture.school === 'mdev'
+    // })
+
+    lecturesArray.forEach(lecture => {
+        const { date, school } = lecture
+
+        const month = new Date(date).getMonth()
+        const domLecture = renderLecture(lecture)
+        const curr = monthHashTable[month]
+        curr.push(domLecture)
+        monthHashTable[month] = curr
+    })
+
+    for (const monthNumber in monthHashTable) {
+        const lectures = monthHashTable[monthNumber]
+        if (lectures.length > 0) {
+
+            const monthDOM = document.createElement('div')
+            monthDOM.innerHTML =
+             `
+                <div class="schedule__month month month--expanded">
+                    <div class="schedule__title">${getMonth(monthNumber)}</div>
+                    ${lectures.join('')}
+                </div>
+             `
+            SCHEDULE_DOM.appendChild(monthDOM)
+        }
+    }
 }
 
 const getLecturer = _lecturer => {
@@ -67,28 +118,27 @@ const getSchool = school => {
 
 const renderLecture = lecture => {
     const { school, name, lecturer, pic, date, venue } = lecture
-    console.log(lecture)
-    const domLecture = document.createElement('div')
-
     const _lecturer = getLecturer(lecturer)
 
-    domLecture.innerHTML = 
+    const lectureHTML = 
     `
         <div class="schedule__event event">
             <div class="event__header event__header--${school || 'all'}">
-            <div class="event__school">${getSchool(school)}</div>
+                <div class="event__school">${getSchool(school)}</div>
             </div>
             <img class="event__pic" src="${pic}">
             <div class="event__title">
-            <div class="event__date">16</div>
-            <div class="event__name">${name}</div>
+                <div class="event__date">${new Date(date).getDate()}</div>
+                <div class="event__date">${getDayOfTheWeek(date)}</div>
+                <div class="event__name">${name}</div>
             </div>
             <div class="event__meta meta">
-            <div class="meta__item meta__item--lecturer">${_lecturer.name}</div>
-            <div class="meta__item meta__item--company">${_lecturer.company}</div>
-            <div class="meta__item meta__item--place">${venue}</div>
+                <div class="meta__item meta__item--lecturer">${_lecturer.name}</div>
+                <div class="meta__item meta__item--company">${_lecturer.company}</div>
+                <div class="meta__item meta__item--place">${venue}</div>
             </div>
         </div>
     `
-    SCHEDULE_DOM.appendChild(domLecture)
+
+    return lectureHTML
 }
