@@ -17,7 +17,7 @@
 	justify-content: center;
 	&__month { 
 		width: 30vw;
-		max-width: 400px;
+		max-width: 420px;
 		min-width: 310px;
 	}
 	&__title {
@@ -128,10 +128,10 @@
 			width: 100vw;
 		}
 		&__title {
-			padding: .4em 1vw .3em;
+			padding: .5em 2vw .5em;
 		}
 		&__event {
-			margin: .5em 2vw .5em;
+			margin: .5em 3vw .75em;
 		}
 	}
 }
