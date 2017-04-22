@@ -67,13 +67,25 @@
   &__title {
     display: flex;
   }
-	&__date {
+	&__date-number {
 		font-weight: 300;
 		font-size: 2em;
-		letter-spacing: -2px;
+		letter-spacing: -1px;
+		line-height: .4em;
     margin: 10px 5px 0 10px; 
 		border-color: inherit;
 		display: inline-block;
+		font-variant-numeric: proportional-nums;
+		-moz-font-feature-settings: "pnum";
+		-webkit-font-feature-settings: "pnum";
+		font-feature-settings: "pnum";
+	}
+	&__date-week {
+		margin: -5px 5px 0 10px;
+    text-transform: uppercase;
+    letter-spacing: .2em;
+    font-weight: 500;
+    font-size: .75em;
 	}
 	&__pic {
 		width: 100%;

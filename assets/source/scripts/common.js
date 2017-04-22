@@ -33,8 +33,8 @@ fetchSchedule().then(json => {
 const getMonth = time => {
     if (!time) return false
     const months = [
-        'январь', 'февраль', 'март', 'апрель',
-        'май', 'июнь', 'июль', 'август', 'сентябрь'
+        'Январь', 'Февраль', 'Март', 'Апрель',
+        'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь'
     ]
     time = new Date(time)
     return months[time.getMonth()] || false
@@ -44,6 +44,9 @@ const getDayOfTheWeek = time => {
     if (!time) return false
     const days = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс']
     const currentDay = new Date(time).getDay()
+    if (currentDay > 4) {
+        let weekend = 'event__date-week--weekend';
+    } 
     return days[currentDay]
 }
 
@@ -128,8 +131,10 @@ const renderLecture = lecture => {
             </div>
             <img class="event__pic" src="${pic}">
             <div class="event__title">
-                <div class="event__date">${new Date(date).getDate()}</div>
-                <div class="event__date">${getDayOfTheWeek(date)}</div>
+                <div class="event__date">
+                    <div class="event__date-number">${new Date(date).getDate()}</div>
+                    <div class="event__date-week">${getDayOfTheWeek(date)}</div>
+                </div>
                 <div class="event__name">${name}</div>
             </div>
             <div class="event__meta meta">
