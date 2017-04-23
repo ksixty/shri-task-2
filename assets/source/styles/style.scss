@@ -67,6 +67,10 @@
   &__title {
     display: flex;
   }
+  &__date {
+  	width: 42px;
+  	flex-shrink: 0;
+  }
 	&__date-number {
 		font-weight: 300;
 		font-size: 2em;
