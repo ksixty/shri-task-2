@@ -88,7 +88,6 @@
 		margin: -5px 5px 0 10px;
     text-transform: uppercase;
     letter-spacing: .2em;
-    font-weight: 500;
     font-size: .75em;
 	}
 	&__pic {
@@ -102,15 +101,14 @@
 		text-transform: uppercase;
 	}
 	&__name {
-		padding: .35em 12px .6em;
+		padding: .35em 12px .4em;
 		font-size: 1.2em;
 		line-height: 1.3em;
 	}
 }
 
 .meta {
-  margin: 0 0 0 3em;
-	padding: 0 12px .75em;
+	padding: 0 12px 1.25em 12px;
 	display: flex;
 	flex-wrap: wrap;
 	&__item {
