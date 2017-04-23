@@ -32,7 +32,7 @@
 
     const bindPropsToStore = data => {
       store.general.schools = data.general.schools
-      store.general.lectures = data.general.lectures
+      store.general.lecturers = data.general.lecturers
       store.general.venue = data.general.velue
     }
 
@@ -105,9 +105,9 @@
         }
     }
 
-    mobControls.prototype.lectures = {
+    mobControls.prototype.lecturers = {
         get: function () {
-            return store.general.lectures
+            return store.general.lecturers
         },
         edit: function (id) {
             return this
@@ -117,7 +117,6 @@
         },
         add: function (lecture) {
           const { name, time } = lecture
-          if (!name) 
         }
     }
 

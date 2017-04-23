@@ -163,7 +163,8 @@ gulp.task('server', function() {
       },
       host: 'localhost',
       notify: false,
-      port: port
+      port: port,
+      open: false
     });
   });
 });
