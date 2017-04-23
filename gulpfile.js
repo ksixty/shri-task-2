@@ -36,7 +36,7 @@ const processors = [
 const paths = {
   styles: 'assets/source/styles/',
   css: 'assets/css/',
-  scripts: 'assets/source/scripts/',
+  scripts: 'assets/js/',
   js: 'assets/js/',
   templates: 'templates/',
   img: 'assets/source/img/',
@@ -64,7 +64,7 @@ gulp.task('no-server', function() {
 gulp.task('watch', function() {
   gulp.watch(paths.templates + '**/*.twig', ['twig']);
   gulp.watch(paths.styles + '**/*.scss', ['styles', 'cache']);
-  gulp.watch(paths.scripts + '*.js', ['scripts', 'cache']);
+  gulp.watch(paths.scripts + '*.js', ['twig']);
   gulp.watch(paths.img + '*.{png,jpg,gif,svg}', ['img']).on('change', function(event) {
     if (event.type === 'deleted') {
       del(paths.bundles + path.basename(event.path));
