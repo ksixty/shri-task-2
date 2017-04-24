@@ -8,7 +8,7 @@
         general: {
             schools: {},
             lecturers: {},
-            venue: {},
+            venues: {},
         },
         schedule: {},
     }
@@ -31,9 +31,11 @@
     }
 
     const bindPropsToStore = data => {
+      console.log(data)
       store.general.schools = data.general.schools
       store.general.lecturers = data.general.lecturers
-      store.general.venue = data.general.velue
+      store.general.venues = data.general.venues
+      store.schedule = data.schedule
     }
 
     mobControls.prototype.serialize = json => {
@@ -64,6 +66,8 @@
       })
     }
 
+    mobControls.prototype.clearCache = () => localStorage.removeItem('mobilization')
+
     mobControls.prototype.getData = () => {
       if (!this.deserialized) {
         throw new Error(
@@ -75,49 +79,50 @@
       return store
     }
 
-    mobControls.prototype.venue = {
-        get: function () {
-            return store.general.venue
-        },
-        edit: function (id) {
-            return this
-        },
-        remove: function (id) {
-            return this
-        },
-        add: function (venue) {
-          const { name } = venue
-        }
+    mobControls.prototype.venues = {
+      get: () => store.general.venues,
+      edit: id => {
+        return this
+      },
+      remove: id => {
+        return this
+      },
+      add: venue => {
+        const { name } = venue
+      }
     }
 
     mobControls.prototype.schools = {
-        get: function () {
-            return store.general.schools
-        },
-        edit: function (id) {
-            return this
-        },
-        remove: function (id) {
-            return this
-        },
-        add: function (school) {
+      get: () => store.general.schools,
+      edit: () => {
+        return this
+      },
+      remove: () => {
+        return this
+      },
+      add: () => {
 
-        }
+      }
     }
 
     mobControls.prototype.lecturers = {
-        get: function () {
-            return store.general.lecturers
-        },
-        edit: function (id) {
-            return this
-        },
-        remove: function (id) {
-            return this
-        },
-        add: function (lecture) {
-          const { name, time } = lecture
-        }
+      get: () => store.general.lecturers,
+      edit: id => {
+        return this
+      },
+      remove: id => {
+        return this
+      },
+      add: lecture => {
+        const { name, time } = lecture
+      }
+    }
+
+    mobControls.prototype.schedule = {
+      get: () => store.schedule,
+      edit: () => {
+
+      }
     }
 
     return mobControls
