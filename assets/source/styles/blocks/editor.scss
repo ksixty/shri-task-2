@@ -15,8 +15,8 @@
 
 .entry {
 	padding: .5em 2vw .5em;
-	height: 46px;
-	overflow-y: hidden;
+	/*height: 46px;*/
+	/*overflow-y: hidden;*/
 	scroll
 	&__label {
 		font-size: .7em;
@@ -42,6 +42,7 @@
 	    font-size: 1.2em;
 	    line-height: 1.3em;
 	    max-width: 500px;
+      cursor: pointer;
 		}
 		&--date, &--time {
 			display: inline-block;
