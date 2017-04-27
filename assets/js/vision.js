@@ -1,9 +1,10 @@
 const api = mobControls()
-console.log(api)
 
 // api.clearCache()
+api.deserialize().then(() => {
 
-api.deserialize().then(function () {
+  console.log(api.schedule.edit(4, {name: 'Лекция 3. Ыыыы'}))
+
   Vue.component('lecturers', {
     data: function () {
       return {
@@ -27,8 +28,6 @@ api.deserialize().then(function () {
 
   Vue.component('venues', {
     data: function () {
-      console.log(api.venues.get())
-      console.log('test')
       return {
         venues: api.venues.get()
       }
@@ -83,7 +82,6 @@ api.deserialize().then(function () {
   const Lectures = new Vue({
     el: '#lectures',
     data: function () {
-      console.log(api.schedule.get())
       return {
         lecturers: api.lecturers.get(),
         schools: api.schools.get(),

@@ -120,13 +120,31 @@
 
     mobControls.prototype.schedule = {
       get: () => store.schedule,
-      getById: id => store.schedule,
-      edit: (lectureId, newInfo) => {
+      getById: () => {
+        for (const i in store.schedule) {
+          const lecture = store.schedule[i]
+          if (lecture.id === id) {
+            return lecture
+          }
+        }
 
+        return undefined
       },
       remove: id => {
+      },
+      edit: (lectureId, newInfo) => {
+        for (const i in store.schedule) {
+          const lecture = store.schedule[i]
+          if (lecture.id === lectureId) {
+            store.schedule[i] = Object.assign(store.schedule[i], newInfo)
+            return store.schedule[i]
+          }
+        }
+        return false
       }
     }
+
+    
 
     return mobControls
 })
