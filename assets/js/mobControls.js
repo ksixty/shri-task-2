@@ -3,6 +3,7 @@
 })
 ('mobControls', this, () => {
     const JSON_LINK = 'https://vanyaklimenko.ru/schedule.json'
+    const LOCAL_STORAGE_NAME = 'mobilization'
 
     const store = {
         general: {
@@ -38,8 +39,10 @@
       store.schedule = data.schedule
     }
 
+    const syncWithLocalStorage = () => localStorage.setItem(LOCAL_STORAGE_NAME, JSON.stringify(store))
+
     mobControls.prototype.serialize = json => {
-        const data = localStorage.getItem('mobilization')
+        const data = localStorage.getItem(LOCAL_STORAGE_NAME)
         console.log(data)
     }
 
@@ -47,7 +50,7 @@
       // Chech whether data exists in the local storage
       // In no, fetch data, then put it to the local storage
       return new Promise ((resolve, reject) => {
-        let data = localStorage.getItem('mobilization')
+        let data = localStorage.getItem(LOCAL_STORAGE_NAME)
         if (data) {
           data = JSON.parse(data)
           bindPropsToStore(data)
@@ -55,7 +58,7 @@
           return resolve(data)
         } else {
           fetchData().then(data => {
-            localStorage.setItem('mobilization', JSON.stringify(data))
+            localStorage.setItem(LOCAL_STORAGE_NAME, JSON.stringify(data))
             bindPropsToStore(data)
             this.deserialized = true
             return resolve(data)
@@ -131,12 +134,24 @@
         return undefined
       },
       remove: id => {
+        for (const i in store.schedule) {
+          const lecture = store.schedule[i]
+          // this one we need to remove from the object
+          if (lecture.id === id) {
+            console.log(lecture)
+            delete store.schedule[i]
+            syncWithLocalStorage()
+            return true
+          }
+        }
+        return false
       },
       edit: (lectureId, newInfo) => {
         for (const i in store.schedule) {
           const lecture = store.schedule[i]
           if (lecture.id === lectureId) {
             store.schedule[i] = Object.assign(store.schedule[i], newInfo)
+            syncWithLocalStorage()
             return store.schedule[i]
           }
         }

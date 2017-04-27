@@ -3,7 +3,8 @@ const api = mobControls()
 // api.clearCache()
 api.deserialize().then(() => {
 
-  console.log(api.schedule.edit(4, {name: 'Лекция 3. Ыыыы'}))
+  // console.log(api.schedule.edit(4, {name: 'Лекция 3. Ыыыы'}))
+  console.log(api.schedule.remove(1))
 
   Vue.component('lecturers', {
     data: function () {
