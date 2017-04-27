@@ -32,7 +32,6 @@
     }
 
     const bindPropsToStore = data => {
-      console.log(data)
       store.general.schools = data.general.schools
       store.general.lecturers = data.general.lecturers
       store.general.venues = data.general.venues
@@ -43,7 +42,6 @@
 
     mobControls.prototype.serialize = json => {
       const data = localStorage.getItem(LOCAL_STORAGE_NAME)
-      console.log(data)
     }
 
     mobControls.prototype.deserialize = () => {
@@ -164,7 +162,6 @@
           const lecture = store.schedule[i]
           // this one we need to remove from the object
           if (lecture.id === id) {
-            console.log(lecture)
             delete store.schedule[i]
             syncWithLocalStorage()
             return true
@@ -205,6 +202,48 @@
           }
         }
         return formattedLectures
+      },
+      addLecture: lecture => {
+        const { start, end, name, pic, school, venue } = lecture
+        if (!start) throw new Error('Please provide when the lecture starts [start]')
+        if (!end) throw new Error('Please provide when the lecture ends [end]')
+        if (!name) throw new Error('Please provide the name of the lecture [name]')
+        if (!school) throw new Error('Please provide the name of the school [school]')
+        if (!venue) throw new Error('Please provide where the lectere will be shown [venue]')
+
+        if (start > end) {
+          throw new Error('[start] time cant be more, than [end] time')
+        }
+
+        // getting max current id
+        let maxId = 0
+        for (const i in store.schedule) {
+          const lecture = store.schedule[i]
+          const _id = lecture.id
+          const _start = lecture.start
+          const _school = lecture.school
+          const _venue = lecture.venu
+
+
+          // 1. Для одной школы не может быть двух лекций одновременно.
+          if (_school === school && start === _start) {
+            throw new Error(`There is already a lecture at that moment.
+              Could you please choose another time?`)
+          }
+
+          // 2. В одной аудитории не может быть одновременно двух разных лекций.
+          if (__venue === venue && start === _start) {
+            throw new Error(`There is already another lecture in that venue.
+              Could you please choose another venue?`)
+          }
+
+          if (_id > maxId) maxId = id
+        }
+
+        store.schedule[maxId] = lecture
+        syncWithLocalStorage()
+
+        return lecture
       }
     }
 
