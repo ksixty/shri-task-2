@@ -10,7 +10,7 @@
             lecturers: {},
             venues: {},
         },
-        schedule: {},
+        schedule: {}
     }
 
     function mobControls () {
@@ -94,10 +94,10 @@
 
     mobControls.prototype.schools = {
       get: () => store.general.schools,
-      edit: () => {
+      edit: (id, newInfo) => {
         return this
       },
-      remove: () => {
+      remove: id => {
         return this
       },
       add: () => {
@@ -120,8 +120,11 @@
 
     mobControls.prototype.schedule = {
       get: () => store.schedule,
-      edit: () => {
+      getById: id => store.schedule,
+      edit: (lectureId, newInfo) => {
 
+      },
+      remove: id => {
       }
     }
 

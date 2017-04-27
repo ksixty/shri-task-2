@@ -1,7 +1,7 @@
 const api = mobControls()
 console.log(api)
 
-api.clearCache()
+// api.clearCache()
 
 api.deserialize().then(function () {
   Vue.component('lecturers', {
