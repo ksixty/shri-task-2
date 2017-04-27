@@ -130,7 +130,20 @@
         return true
       },
       add: lecturer => {
-        const { name, time } = lecture
+        const { name, id, bio } = lecturer
+        if (!name || !id) {
+          throw new Error(`Please provide lecturer's ID and full name`)
+        }
+
+        if (store.general.lecturers[id]) {
+          throw new Error(
+            `Lecturer with id ${id} is already here. Please, choose another one.`)
+        }
+
+        store.general.lecturers[id] = lecturer
+        syncWithLocalStorage()
+
+        return lecturer
       }
     }
 
@@ -157,6 +170,7 @@
             return true
           }
         }
+
         return false
       },
       edit: (lectureId, newInfo) => {
@@ -168,6 +182,7 @@
             return store.schedule[i]
           }
         }
+
         return false
       }
     }

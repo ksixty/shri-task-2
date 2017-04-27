@@ -7,7 +7,10 @@ api.deserialize().then(() => {
   // console.log(api.schedule.remove(1))
 
   console.log(api.lecturers.getById('dushkin'))
-  console.log(api.lecturers.edit('dushkin', {name: 'лол'}))
+  console.log(api.lecturers.add({
+    id: 'serega',
+    name: 'Серега Бережной'
+  }))
 
   Vue.component('lecturers', {
     data: function () {
