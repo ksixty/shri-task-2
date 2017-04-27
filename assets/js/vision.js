@@ -4,7 +4,10 @@ const api = mobControls()
 api.deserialize().then(() => {
 
   // console.log(api.schedule.edit(4, {name: 'Лекция 3. Ыыыы'}))
-  console.log(api.schedule.remove(1))
+  // console.log(api.schedule.remove(1))
+
+  console.log(api.lecturers.getById('dushkin'))
+  console.log(api.lecturers.edit('dushkin', {name: 'лол'}))
 
   Vue.component('lecturers', {
     data: function () {

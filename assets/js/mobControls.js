@@ -42,8 +42,8 @@
     const syncWithLocalStorage = () => localStorage.setItem(LOCAL_STORAGE_NAME, JSON.stringify(store))
 
     mobControls.prototype.serialize = json => {
-        const data = localStorage.getItem(LOCAL_STORAGE_NAME)
-        console.log(data)
+      const data = localStorage.getItem(LOCAL_STORAGE_NAME)
+      console.log(data)
     }
 
     mobControls.prototype.deserialize = () => {
@@ -110,13 +110,26 @@
 
     mobControls.prototype.lecturers = {
       get: () => store.general.lecturers,
-      edit: id => {
-        return this
+      edit: (id, newInfo) => {
+        if (!id) throw new Error(`No lecturer's id provided`)
+        const lecturer = store.general.lecturers[id]
+        if (!lecturer) {
+          throw new Error(`No lecturer with id ${id}`)
+        }
+
+        store.general.lecturers[id] = Object.assign(
+          store.general.lecturers[id], newInfo
+        )
+        syncWithLocalStorage()
+        return store.general.lecturers[id]
       },
+      getById: id => store.general.lecturers[id],
       remove: id => {
-        return this
+        delete store.general.lecturers[id]
+        syncWithLocalStorage()
+        return true
       },
-      add: lecture => {
+      add: lecturer => {
         const { name, time } = lecture
       }
     }
