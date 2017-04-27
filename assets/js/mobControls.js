@@ -184,6 +184,27 @@
         }
 
         return false
+      },
+      getByDate: (startNeed, endNeed) => {
+        if (!startNeed) throw new Error('Start date should be provided')
+        // End data is not such important here
+        if (!endNeed) endNeed = Date.now() + 999999999999
+
+        if (startNeed > endNeed) {
+          throw new Error('Start time cant be more than end time')
+        }
+
+        const formattedLectures = {}
+        for (const i in store.schedule) {
+          const lecture = store.schedule[i]
+          const { start, end, id } = lecture
+
+          // if its right add the lecture to the list
+          if (startNeed >= start && end <= endNeed) {
+            formattedLectures[id] = lecture
+          }
+        }
+        return formattedLectures
       }
     }
 
