@@ -90,14 +90,31 @@
 
     mobControls.prototype.venues = {
       get: () => store.general.venues,
-      edit: id => {
+      getById: shortName => store.general.venues[shortName],
+      edit: (shortName, newInfo) => {
+        if (!shortName) throw new Error(`Venue's short name is not provided [shortName]`)
+        if (!newInfo) throw new Error(`New information object is not provided`)
+
+        store.general.venues[shortName] = Object.assign(
+          store.general.venues[shortName], newInfo)
+
         return this
       },
-      remove: id => {
-        return this
+      remove: shortName => {
+        delete store.general.venues[shortName]
+        syncWithLocalStorage()
+        return true
       },
       add: venue => {
-        const { name } = venue
+        const { shortName, name, lecturer, capacity } = venue
+        if (!shortName) throw new Error(`Venue's short name is not provided [shortName]`)
+        if (!name) throw new Error(`Venue's name is not provided [name]`)
+        if (!lecturer) throw new Error(`Venue's lecturer name is not provided`)
+        if (!capacity) throw new Error(`Venue's capacity is not provided`)
+
+        store.general.venues[shortName] = venue
+        syncWithLocalStorage()
+        return venue
       }
     }
 
