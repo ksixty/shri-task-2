@@ -6,29 +6,29 @@
     const LOCAL_STORAGE_NAME = 'mobilization'
 
     const store = {
-        general: {
-            schools: {},
-            lecturers: {},
-            venues: {},
-        },
-        schedule: {}
+      general: {
+        schools: {},
+        lecturers: {},
+        venues: {},
+      },
+      schedule: {}
     }
 
     function mobControls () {
-        if (window === this) {
-            return new mobControls()
-        }
+      if (window === this) {
+        return new mobControls()
+      }
 
-        this.deserialized = false
-        return this
+      this.deserialized = false
+      return this
     }
 
     const fetchData = () => {
-        return new Promise((resolve, reject) => {
-          fetch(JSON_LINK).then(r => r.json())
-          .then(r => resolve(r))
-          .catch(e => reject(e))
-        })
+      return new Promise((resolve, reject) => {
+        fetch(JSON_LINK).then(r => r.json())
+        .then(r => resolve(r))
+        .catch(e => reject(e))
+      })
     }
 
     const bindPropsToStore = data => {
@@ -134,8 +134,7 @@
         }
 
         if (store.general.lecturers[id]) {
-          throw new Error(
-            `Lecturer with id ${id} is already here. Please, choose another one.`)
+          throw new Error(`Lecturer with id ${id} is already here. Please, choose another one.`)
         }
 
         store.general.lecturers[id] = lecturer
@@ -201,6 +200,7 @@
             formattedLectures[id] = lecture
           }
         }
+        
         return formattedLectures
       },
       addLecture: lecture => {
@@ -208,8 +208,14 @@
         if (!start) throw new Error('Please provide when the lecture starts [start]')
         if (!end) throw new Error('Please provide when the lecture ends [end]')
         if (!name) throw new Error('Please provide the name of the lecture [name]')
+
+
         if (!school) throw new Error('Please provide the name of the school [school]')
+        if (!store.general.schools[school]) throw new Error(`There is not such school [${school}]. Please, choose onother one.`)
+
         if (!venue) throw new Error('Please provide where the lectere will be shown [venue]')
+        if (!store.general.venues[venue]) throw new Error(`There is no such venue [${venue}]. Please choose another one`)
+
 
         if (start > end) {
           throw new Error('[start] time cant be more, than [end] time')
@@ -222,8 +228,7 @@
           const _id = lecture.id
           const _start = lecture.start
           const _school = lecture.school
-          const _venue = lecture.venu
-
+          const _venue = lecture.venue
 
           // 1. Для одной школы не может быть двух лекций одновременно.
           if (_school === school && start === _start) {
@@ -232,13 +237,17 @@
           }
 
           // 2. В одной аудитории не может быть одновременно двух разных лекций.
-          if (__venue === venue && start === _start) {
+          if (_venue === venue && start === _start) {
             throw new Error(`There is already another lecture in that venue.
               Could you please choose another venue?`)
           }
 
-          if (_id > maxId) maxId = id
+          if (_id > maxId) maxId = _id
         }
+
+        // 3. Вместимость аудитории должна быть больше или равной количеству студентов на лекции.
+        const studentsAmount = store.general.schools[school].students
+        const capacity = store.general.venues[venue].capacity
 
         store.schedule[maxId] = lecture
         syncWithLocalStorage()

@@ -7,13 +7,13 @@ api.deserialize().then(() => {
   // console.log(api.schedule.remove(1))
 
   // console.log(api.schedule.getByDate(100000000000000, 9999099999999999999))
-  console.log(api.schedule.addLecture({
-    start: 123,
-    end: 125,
-    name: 'CS50',
-    school: 'shri',
-    venue: '123'
-  }))
+  // console.log(api.schedule.addLecture({
+  //   start: 12667,
+  //   end: 1254444,
+  //   name: 'CS50',
+  //   school: 'shri',
+  //   venue: 'skit'
+  // }))
 
   // console.log(api.lecturers.getById('dushkin'))
   // console.log(api.lecturers.add({
