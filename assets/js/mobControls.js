@@ -1,5 +1,11 @@
 (function(name, ctx, fn) {
-    ctx[name] = fn()
+
+  if (typeof module !== 'undefined') {
+    module.exports = fn()
+    return false
+  }
+
+  ctx[name] = fn()
 })
 ('mobControls', this, () => {
     const JSON_LINK = 'https://vanyaklimenko.ru/schedule.json'
@@ -15,8 +21,10 @@
     }
 
     function mobControls () {
-      if (window === this) {
-        return new mobControls()
+      if (typeof window !== 'undefined') {
+        if (window === this) {
+          return new mobControls()
+        }
       }
 
       this.deserialized = false
@@ -95,14 +103,31 @@
 
     mobControls.prototype.schools = {
       get: () => store.general.schools,
-      edit: (id, newInfo) => {
-        return this
-      },
-      remove: id => {
-        return this
-      },
-      add: () => {
+      getById: shortName => store.general.schools[shortName],
+      edit: (shortName, newInfo) => {
+        const { name, students } = newInfo
+        if (!name || !students) throw new Error('Please provide either name of the school or students')
 
+        store.general.schools[shortName] = Object.assign(
+          store.general.schools[shortName], newInfo)
+        syncWithLocalStorage()
+
+        return this
+      },
+      remove: shortName => {
+        delete store.general.schools[shortName]
+        return this
+      },
+      add: school => {
+        const { name, students, shortName } = school
+        if (!name) throw new Error('Name of the school is not provided [name]')
+        if (!students) throw new Error('Please provide how many students are there in that school')
+
+        store.general.schools[shortName] = {
+          name, students
+        }
+        syncWithLocalStorage()
+        return school
       }
     }
 
