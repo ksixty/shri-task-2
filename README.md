@@ -1,39 +1,37 @@
 # Задание 2  ·  ШРИ-2017
 Библиотека для взаимодействия с расписанием «Мобилизации» из [первого задания](http://github.com/vanya-klimenko/shri-task-1). Она умеет:
 1. Создавать/добавлять/редактировать школы, аудитории и лекции.
-2. Отбирать лекции школы или лекции аудитории по датам
+2. Показывать расписание аудитории; расписание за определенный период
 3. Не давать вводить бессмысленные данные — например, нельзя создать две лекции в одной аудитории одновременно
-4. Использовать localStorage, чтобы не забывать про сделанные изменения
+4. Использовать localStorage, чтобы не забывать про сделанные изменения  
+  
+Кроме того, было реализовано [простейшее приложение](http://vanyaklimenko.ru/shri-task-2/test.html), использующее библиотеку для фильтрации и удаления данных.
 
+## Использование
+Чтобы библиотека работала, подключите её на страницу и вызовите метод `mobControls().getData()`, чтобы получить какие-то данные для работы. Ниже приведён список методов библиотеки для работы с этими данными.
 
-
-## Данные, хранилище
+### Данные, хранилище
 
 
 ```javascript
-serialize(json)
+mobcontrols().deserialize()
 ```
-Сериализует данные из localStorage и возвращает объект.
+Десериализует данные из localStorage и кладёт их в хранилище `store`.
 <br><br>
 ```javascript
-deserialize()
-```
-Десериализует данные из JSON и кладёт их в localStorage.
-<br><br>
-```javascript
-clearCache()
+mobcontrols().clearCache()
 ```
 Очищает кеш.
 <br><br>
 ```javascript
-getData()
+mobcontrols().getData()
 ```
 Возвращает все данные.
 <br><br>
 
 
 
-## Аудитории
+### Аудитории
 Возможная информация:
 - Краткий ID, `shortName`
 - Полное название, `name`
@@ -41,69 +39,69 @@ getData()
 - ID лектора, `lecturer`
 <br><br>
 ```javascript
-venues.get
+mobcontrols().venues.get
 ```
 Возвращает все аудитории.
 <br><br>
 ```javascript
-venues.getById(shortName)
+mobcontrols().venues.getById(shortName)
 ```
 Возвращает аудиторию.
 <br><br>
 ```javascript
-venues.update(shortName, {shortName, name, lecturer, capacity})
+mobcontrols().venues.update(shortName, {shortName, name, lecturer, capacity})
 ```
 Изменяет данные об аудитории на новые. Все поля передавать необязательно.
 <br><br>
 
 ```javascript
-venue.removeObject(shortName)
+mobcontrols().venue.removeObject(shortName)
 ```
 Удаляет аудиторию.
 <br><br>
 ```javascript
-venue.addObject({shortName, name, lecturer, capacity})
+mobcontrols().venue.addObject({shortName, name, lecturer, capacity})
 ```
 Добаввляет аудиторию. Все поля обязательны.
 <br><br>
 
 
 
-## Школы
+### Школы
 Возможная информация:
 - Краткий ID, `shortName`
 - Полное название, `name`
 - Число студентов, `students`
 <br><br>
 ```javascript
-schools.get
+mobcontrols().schools.get
 ```
 Возвращает все школы.
 <br><br>
 ```javascript
-schools.getById(shortName)
+mobcontrols().schools.getById(shortName)
 ```
 Возвращает школу.
 <br><br>
 ```javascript
-schools.update(shortName, {name, students})
+mobcontrols().schools.update(shortName, {name, students})
 ```
 Изменяет данные о школе на новые. Все поля передавать необязательно.
 <br><br>
 ```javascript
-schools.removeObject(shortName)
+mobcontrols().schools.removeObject(shortName)
 ```
 Удаляет школу.
 <br><br>
 ```javascript
-schools.addObject({name, students, shortName})
+mobcontrols().schools.addObject({name, students, shortName})
 ```
 Добаввляет школу. Все поля обязательны.
 <br><br>
 
 
 
-## Лекторы 
+### Лекторы 
 Возможная информация:
 - Краткий ID, `id`
 - Полное имя, `name`
@@ -111,33 +109,33 @@ schools.addObject({name, students, shortName})
 - Полное имя, `bio`
 <br><br>
 ```javascript
-lecturers.get
+mobcontrols().lecturers.get
 ```
 Возвращает всех лекторов.
 <br><br>
 ```javascript
-lecturers.getById(shortName)
+mobcontrols().lecturers.getById(shortName)
 ```
 Возвращает лектора.
 <br><br>
 ```javascript
-lecturers.update(shortName, {id, name, pic, bio})
+mobcontrols().lecturers.update(shortName, {id, name, pic, bio})
 ```
 Изменяет данные о лекторе на новые. Все поля передавать необязательно.
 <br><br>
 ```javascript
-lecturers.removeObject(shortName)
+mobcontrols().lecturers.removeObject(shortName)
 ```
 Удаляет лектора.
 <br><br>
 ```javascript
-lecturers.addObject({id, name, pic, bio})
+mobcontrols().lecturers.addObject({id, name, pic, bio})
 ```
 Добаввляет лектора. Все поля обязательны, кроме `bio`.
 <br><br>
 
 
-## Лекции
+### Лекции
 Возможная информация:
 - Краткий ID, `lectureId`
 - Полное имя, `name`
@@ -148,36 +146,36 @@ lecturers.addObject({id, name, pic, bio})
 - ID аудитории, `venue`
 <br><br>
 ```javascript
-schedule.get
+mobcontrols().schedule.get
 ```
 Возвращает все лекции.
 <br><br>
 ```javascript
-schedule.getById(shortName)
+mobcontrols().schedule.getById(shortName)
 ```
 Возвращает лекцию.
 <br><br>
 ```javascript
-schedule.update(shortName, {start, end, name, pic, school, venue})
+mobcontrols().schedule.update(shortName, {start, end, name, pic, school, venue})
 ```
 Изменяет данные о лекции на новые. Все поля передавать необязательно.
 <br><br>
 ```javascript
-schedule.removeObject(shortName)
+mobcontrols().schedule.removeObject(shortName)
 ```
 Удаляет лекцию.
 <br><br>
 ```javascript
-schedule.addObject({start, end, name, pic, school, venue})
+mobcontrols().schedule.addObject({start, end, name, pic, school, venue})
 ```
 Добаввляет лекцию. Все поля обязательны, кроме `bio`.
 <br><br>
 ```javascript
-getByVenue(venueNeed)
+mobcontrols().getByVenue(venueNeed)
 ```
 Возвращает расписание лекций в указанной аудитории.
 <br><br>
 ```javascript
-getByDate(startNeed, endNeed)
+mobcontrols().getByDate(startNeed, endNeed)
 ```
 Возвращает расписание лекций за период от `startNeed` до `endNeed`.

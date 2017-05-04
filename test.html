@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>mobControls UI</title>
+	<script type="text/javascript" src="mobControls.js"></script>
+	<style type="text/css">
+		body {
+			width: 98vw;
+			height: 98vh;
+			font-family: sans-serif;
+		}
+		.error {
+			background: rgba(220, 50, 0, .2);
+		}
+		.toggles {
+			clear: both;
+		}
+		.toggles__method {
+			margin: 10px 10px 10px 0;
+			display: inline-block;
+			vertical-align: top;
+		}
+		input {
+			display: block;
+			margin-top: -1px;
+		}
+		input[type="date"] {
+			display: inline;
+		}
+		pre {
+			border: 1px solid #ccc;
+			max-height: 50%;
+			max-width: 100%;
+			overflow: scroll;
+			font-size: 12px;
+			font-family: Monaco, Consolas, monospace;
+		}
+		.tabs {
+		    padding: 1em 0 0;
+		}
+		.tabs__opiton {
+		    float: left;
+		    -webkit-user-select: none;
+		    -moz-user-select: none;
+		    -ms-user-select: none;
+		    user-select: none;
+		    padding: 2px 13px 3px;
+		    margin: 0;
+		    box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+		    cursor: default;
+		    transition: all .1s;
+		}
+		.tabs__opiton:hover {
+		    background: #ffeba0;
+		}
+		.tabs__opiton--chosen {
+		    background: #666;
+		    border-color: #666;
+		    box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.8);
+		    color: #fff;
+		}
+		.tabs__opiton--chosen:hover {
+		    background: #e4bd6f;
+		    box-shadow: inset 0 1px 0 rgba(100, 50, 0, 0.3);
+		}
+		.tabs__opiton:first-child {
+		    border: none;
+		    border-radius: 4px 0 0 4px;
+		}
+		.tabs__opiton:last-child {
+		    border: none;
+		    border-radius: 0 4px 4px 0;
+		}
+	</style>
+</head>
+<body>
+	<h1>Showing and removing lectures with mobControl.js</h1>
+	<p><a href="http://github.com/vanya-klimenko/shri-task-2">Part of the ShRI Prelim Task 2</a></p>
+	<hr>
+
+<button onclick="mobControls().clearCache(); mobControls().deserialize(); showData()">.clearCache()</button> → 
+	<button onclick="showData()">.getData()</button>
+
+	<div class="tabs">
+		<div class="tabs__opiton" id="venues" onclick="showTab('venues')">venues</div>
+		<div class="tabs__opiton" id="schools" onclick="showTab('schools')">schools</div>
+		<div class="tabs__opiton" id="lecturers" onclick="showTab('lecturers')">lecturers</div>
+		<div class="tabs__opiton" id="schedule" onclick="showTab('schedule')">schedule</div>
+	</div>
+	<div class="toggles" id="toggles"></div>
+	<pre id="output"></pre>
+
+	<script type="text/javascript">
+		const $ = (el) => document.querySelector(el)
+
+		let DOM = $('#output')
+		console.log = message => {DOM.innerHTML = ('<p>' + message + '</p>');}
+		console.info = console.debug = console.error = console.log
+
+		const showData = () => console.log(JSON.stringify(mobControls().getData(), null, 4))
+		const show = smth => console.log(JSON.stringify(smth, null, 4))
+
+		const showTab = tab => {
+			let tab_content = ''
+			switch(tab) {
+				case 'venues':
+					tab_content = `
+						<div class="toggles__method">
+							<p>venues.getById()</p>
+							<input placeholder="shortName" value="skit" id="venues_getbyid_shortname">
+							<button onclick="show(mobControls().venues.getById($('#venues_getbyid_shortname').value))">↳</button>
+						</div>
+						<div class="toggles__method">
+							<p>venues.removeObject()</p>
+							<input placeholder="shortName" value="skit" id="venues_remove_shortname">
+							<button onclick="mobControls().venues.removeObject($('#venues_remove_shortname').value); showData()">↳</button>
+						</div>
+					`
+					break
+				case 'schools':
+					tab_content = `
+					<div class="toggles__method">
+						<p>schools.getById()</p>
+						<input placeholder="shortName" value="shri" id="schools_getbyid_shortname">
+						<button onclick="show(mobControls().schools.getById($('#schools_getbyid_shortname').value))">↳</button>
+					</div>
+					<div class="toggles__method">
+						<p>schools.removeObject()</p>
+						<input placeholder="shortName" value="mdes" id="schools_remove_id">
+						<button onclick="mobControls().schools.removeObject($('#schools_remove_id').value); showData()">↳</button>
+					</div>
+					`
+					break
+				case 'lecturers':
+					tab_content = `
+					<div class="toggles__method">
+						<p>lecturers.getById()</p>
+						<input placeholder="shortName" value="krijn" id="lecturers_getbyid_shortname">
+						<button onclick="show(mobControls().lecturers.getById($('#lecturers_getbyid_shortname').value))">↳</button>
+					</div>
+					<div class="toggles__method">
+						<p>lecturers.removeObject()</p>
+						<input placeholder="shortName" value="dushkin" id="lecturers_remove_id">
+						<button onclick="mobControls().lecturers.removeObject($('#lecturers_remove_id').value); showData()">↳</button>
+					</div>
+					`
+					break
+				case 'schedule':
+					tab_content = `
+						<div class="toggles__method">
+							<p>schedule.getById()</p>
+							<input placeholder="id" value="1" id="schedule_getbyid_id">
+							<button onclick="show(mobControls().schedule.getById(parseInt($('#schedule_getbyid_id').value)))">↳</button>
+						</div>
+						<div class="toggles__method">
+							<p>schedule.removeObject()</p>
+							<input placeholder="id" id="schedule_remove_id">
+							<button onclick="mobControls().schedule.removeObject(parseInt($('#schedule_remove_id').value)); showData()">↳</button>
+						</div>
+						<div class="toggles__method">
+							<p>schedule.getByVenue()</p>
+							<input placeholder="venue" value="skit" id="schedule_getbyvenue_venue">
+							<button onclick="show(mobControls().schedule.getByVenue($('#schedule_getbyvenue_venue').value))">↳</button>
+						</div>
+						<div class="toggles__method">
+							<p>schedule.getByDate()</p>
+							<input placeholder="shortName" type="date" id="schedule_getbydate_start">—
+							<input placeholder="shortName" type="date" id="schedule_getbydate_end">
+							<button onclick="show(mobControls().schedule.getByDate(new Date($('#schedule_getbydate_start').value).getTime(), new Date($('#schedule_getbydate_end').value).getTime()));">↳</button>
+						</div>
+					`
+					break
+			}
+
+			Array.from(document.getElementsByClassName("tabs__opiton")).forEach(el => el.className = 'tabs__opiton')
+			document.getElementById(tab).classList.add('tabs__opiton--chosen')
+			$('#toggles').innerHTML = tab_content
+		}
+
+		mobControls().deserialize()
+		showTab('venues')
+		showData()
+	</script>
+</body>
+</html>
