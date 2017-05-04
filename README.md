@@ -39,7 +39,7 @@ mobcontrols().getData()
 - ID лектора, `lecturer`
 <br><br>
 ```javascript
-mobcontrols().venues.get
+mobcontrols().venues.get()
 ```
 Возвращает все аудитории.
 <br><br>
@@ -74,7 +74,7 @@ mobcontrols().venue.addObject({shortName, name, lecturer, capacity})
 - Число студентов, `students`
 <br><br>
 ```javascript
-mobcontrols().schools.get
+mobcontrols().schools.get()
 ```
 Возвращает все школы.
 <br><br>
@@ -109,7 +109,7 @@ mobcontrols().schools.addObject({name, students, shortName})
 - Полное имя, `bio`
 <br><br>
 ```javascript
-mobcontrols().lecturers.get
+mobcontrols().lecturers.get()
 ```
 Возвращает всех лекторов.
 <br><br>
@@ -146,7 +146,7 @@ mobcontrols().lecturers.addObject({id, name, pic, bio})
 - ID аудитории, `venue`
 <br><br>
 ```javascript
-mobcontrols().schedule.get
+mobcontrols().schedule.get()
 ```
 Возвращает все лекции.
 <br><br>
