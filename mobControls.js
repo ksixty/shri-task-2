@@ -70,7 +70,7 @@
       })
     }
 
-    mobControls.prototype.clearCache = () => localStorage.removeItem('mobilization')
+    mobControls.prototype.clearCache = () => localStorage.removeItem(LOCAL_STORAGE_NAME)
 
     mobControls.prototype.getData = () => {
       if (!this.deserialized) {

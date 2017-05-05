@@ -16,7 +16,7 @@
 ```javascript
 mobcontrols().deserialize()
 ```
-Десериализует данные из localStorage и кладёт их в хранилище `store`.
+Десериализует данные из localStorage и кладёт их в хранилище `store`. *Асинхронная*.
 <br><br>
 ```javascript
 mobcontrols().clearCache()

@@ -2,6 +2,8 @@
 <html>
 <head>
 	<title>mobControls UI</title>
+	<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/styles/default.min.css">
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/highlight.min.js"></script>
 	<script type="text/javascript" src="mobControls.js"></script>
 	<style type="text/css">
 		body {
@@ -27,7 +29,7 @@
 		input[type="date"] {
 			display: inline;
 		}
-		pre {
+		code {
 			border: 1px solid #ccc;
 			max-height: 50%;
 			max-width: 100%;
@@ -75,11 +77,12 @@
 </head>
 <body>
 	<h1>Showing and removing lectures with mobControl.js</h1>
-	<p><a href="http://github.com/vanya-klimenko/shri-task-2">Part of the ShRI Prelim Task 2</a></p>
+	<p><a href="http://github.com/vanya-klimenko/shri-task-2">Part of the ShRI Entrance Task 2</a></p>
 	<hr>
 
-<button onclick="mobControls().clearCache(); mobControls().deserialize(); showData()">.clearCache()</button> → 
-	<button onclick="showData()">.getData()</button>
+	<button onclick="mobControls().clearCache(); ; alert('Cleared the localStorage')">.clearCache()</button><span> → </span>
+	<button onclick="mobControls().deserialize().then(result => alert('Fetched and deserialized'))">.deserialize()</button><span> → </span>
+	<button onclick="show(mobControls().getData())">.getData()</button>
 
 	<div class="tabs">
 		<div class="tabs__opiton" id="venues" onclick="showTab('venues')">venues</div>
@@ -88,17 +91,14 @@
 		<div class="tabs__opiton" id="schedule" onclick="showTab('schedule')">schedule</div>
 	</div>
 	<div class="toggles" id="toggles"></div>
-	<pre id="output"></pre>
+	<pre><code class="json" id="output"></code></pre>
 
 	<script type="text/javascript">
 		const $ = (el) => document.querySelector(el)
 
 		let DOM = $('#output')
-		console.log = message => {DOM.innerHTML = ('<p>' + message + '</p>');}
-		console.info = console.debug = console.error = console.log
 
-		const showData = () => console.log(JSON.stringify(mobControls().getData(), null, 4))
-		const show = smth => console.log(JSON.stringify(smth, null, 4))
+		const show = smth => DOM.innerHTML = JSON.stringify(smth, null, 4)
 
 		const showTab = tab => {
 			let tab_content = ''
@@ -113,7 +113,7 @@
 						<div class="toggles__method">
 							<p>venues.removeObject()</p>
 							<input placeholder="shortName" value="skit" id="venues_remove_shortname">
-							<button onclick="mobControls().venues.removeObject($('#venues_remove_shortname').value); showData()">↳</button>
+							<button onclick="mobControls().venues.removeObject($('#venues_remove_shortname').value); show(mobControls().getData())">↳</button>
 						</div>
 					`
 					break
@@ -127,7 +127,7 @@
 					<div class="toggles__method">
 						<p>schools.removeObject()</p>
 						<input placeholder="shortName" value="mdes" id="schools_remove_id">
-						<button onclick="mobControls().schools.removeObject($('#schools_remove_id').value); showData()">↳</button>
+						<button onclick="mobControls().schools.removeObject($('#schools_remove_id').value); show(mobControls().getData())">↳</button>
 					</div>
 					`
 					break
@@ -141,7 +141,7 @@
 					<div class="toggles__method">
 						<p>lecturers.removeObject()</p>
 						<input placeholder="shortName" value="dushkin" id="lecturers_remove_id">
-						<button onclick="mobControls().lecturers.removeObject($('#lecturers_remove_id').value); showData()">↳</button>
+						<button onclick="mobControls().lecturers.removeObject($('#lecturers_remove_id').value); show(mobControls().getData())">↳</button>
 					</div>
 					`
 					break
@@ -155,7 +155,7 @@
 						<div class="toggles__method">
 							<p>schedule.removeObject()</p>
 							<input placeholder="id" id="schedule_remove_id">
-							<button onclick="mobControls().schedule.removeObject(parseInt($('#schedule_remove_id').value)); showData()">↳</button>
+							<button onclick="mobControls().schedule.removeObject(parseInt($('#schedule_remove_id').value)); show(mobControls().getData())">↳</button>
 						</div>
 						<div class="toggles__method">
 							<p>schedule.getByVenue()</p>
@@ -177,9 +177,9 @@
 			$('#toggles').innerHTML = tab_content
 		}
 
-		mobControls().deserialize()
 		showTab('venues')
-		showData()
+		mobControls().deserialize().then(result => show(result))
 	</script>
+	<script>hljs.initHighlightingOnLoad();</script>
 </body>
 </html>
