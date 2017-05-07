@@ -262,7 +262,7 @@
 
 
         if (!school) throw new Error('Name of the school is required [school]')
-        if (!store.general.schools[school]) throw new Error(`School "${school}"" does not exist.`)
+        if (!store.general.schools[school]) throw new Error(`School "${school}" does not exist.`)
 
         if (!venue) throw new Error('Venue of the lecture is required [venue]')
         if (!store.general.venues[venue]) throw new Error(`Venue "${venue}" does not exist.`)
